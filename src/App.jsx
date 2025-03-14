@@ -1,5 +1,28 @@
+import { useEffect, useState } from "react";
 
 function App() {
+  const [dateTime, setDateTime] = useState({ date: '', time: '' });
+
+  useEffect(() => {
+    const getDateTime = () => {
+      const now = new Date();
+      const options = { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' };
+      const formattedDate = now.toLocaleDateString('en-GB', options).replace(/\//g, '-');
+
+      let hours = now.getHours();
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12 || 12;
+      const formattedTime = `${String(hours).padStart(2, '0')}:${minutes}:${seconds} ${ampm}`;
+
+      setDateTime({ date: formattedDate, time: formattedTime });
+    };
+
+    getDateTime();
+    const interval = setInterval(getDateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
   return (
     <div className="container">
       <div className="header">
@@ -7,8 +30,8 @@ function App() {
           <h1>KMK Communication</h1>
         </div>
         <div className="time-actions-container">
-          <div id="current-date" className="date" />
-          <div id="current-time" className="time" />
+          <p id="current-date">{dateTime.date}</p>
+          <p id="current-time">{dateTime.time}</p>
           <div className="actions">
             <button id="theme-toggle" className="button">
               Change Theme
