@@ -36,6 +36,12 @@ function App() {
     );
   };
 
+  const getTotalCards = () => {
+    return (
+      (sheet?.totalCards || 0) - (sheet?.sellCards || 0)
+    )
+  }
+
   const getTotalELoad = (network) => {
     return (
       getTotalBalance("telenor") + getTotalBalance("jazz") + getTotalBalance("ufone") + getTotalBalance("zong")
@@ -61,6 +67,18 @@ function App() {
 
   const getTotalBorrowed = () => {
     return (sheet?.borrow || []).reduce((sum, entry) => {
+      return sum + (Number(entry?.amount) || 0);
+    }, 0);
+  };
+
+  const updateRecoveryEntry = (index, field, value) => {
+    const updatedRecovery = [...(sheet?.recovery || [])];
+    updatedRecovery[index] = { ...updatedRecovery[index], [field]: value };
+    setSheet({ ...sheet, recovery: updatedRecovery });
+  };
+
+  const getTotalRecovery = () => {
+    return (sheet?.recovery || []).reduce((sum, entry) => {
       return sum + (Number(entry?.amount) || 0);
     }, 0);
   };
@@ -466,7 +484,7 @@ function App() {
                   <tr>
                     <td>Remaining</td>
                     <td>
-                      <input type="number" disabled value={(sheet?.totalCards || 0) - (sheet?.sellCards || 0)} />
+                      <input type="number" disabled value={getTotalCards()} />
                     </td>
                   </tr>
                 </tbody>
@@ -515,106 +533,28 @@ function App() {
                 <tr>
                   <th colSpan={2}>Recovery</th>
                 </tr>
-                <tr>
-                  <td>
-                    <input type="text" />
-                  </td>
-                  <td>
-                    <input type="number" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input type="text" />
-                  </td>
-                  <td>
-                    <input type="number" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input type="text" />
-                  </td>
-                  <td>
-                    <input type="number" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input type="text" />
-                  </td>
-                  <td>
-                    <input type="number" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input type="text" />
-                  </td>
-                  <td>
-                    <input type="number" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input type="text" />
-                  </td>
-                  <td>
-                    <input type="number" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input type="text" />
-                  </td>
-                  <td>
-                    <input type="number" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input type="text" />
-                  </td>
-                  <td>
-                    <input type="number" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input type="text" />
-                  </td>
-                  <td>
-                    <input type="number" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input type="text" />
-                  </td>
-                  <td>
-                    <input type="number" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input type="text" />
-                  </td>
-                  <td>
-                    <input type="number" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input type="text" />
-                  </td>
-                  <td>
-                    <input type="number" />
-                  </td>
-                </tr>
+                {Array.from({ length: 12 }).map((_, index) => (
+                  <tr key={index}>
+                    <td>
+                      <input
+                        type="text"
+                        value={sheet?.recovery?.[index]?.name || ""}
+                        onChange={(e) => updateRecoveryEntry(index, "name", e.target.value)}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        value={sheet?.recovery?.[index]?.amount || ""}
+                        onChange={(e) => updateRecoveryEntry(index, "amount", e.target.value)}
+                      />
+                    </td>
+                  </tr>
+                ))}
                 <tr>
                   <td>Total</td>
                   <td>
-                    <input type="number" />
+                    <input type="number" disabled value={getTotalRecovery()} />
                   </td>
                 </tr>
               </tbody>
@@ -1511,43 +1451,43 @@ function App() {
               <tr>
                 <td>UBL Omni</td>
                 <td>
-                  <input type="number" />
+                  <input type="number" disabled />
                 </td>
               </tr>
               <tr>
                 <td>EasyPaisa</td>
                 <td>
-                  <input type="number" />
+                  <input type="number" disabled />
                 </td>
               </tr>
               <tr>
                 <td>JazzCash</td>
                 <td>
-                  <input type="number" />
+                  <input type="number" disabled />
                 </td>
               </tr>
               <tr>
                 <td>EasyPaisa &amp; JazzCash Accounts</td>
                 <td>
-                  <input type="number" />
+                  <input type="number" disabled />
                 </td>
               </tr>
               <tr>
                 <td>Recovery</td>
                 <td>
-                  <input type="number" />
+                  <input type="number" disabled value={getTotalRecovery()} />
                 </td>
               </tr>
               <tr>
                 <td>Card</td>
                 <td>
-                  <input type="number" />
+                  <input type="number" disabled value={getTotalCards()} />
                 </td>
               </tr>
               <tr>
                 <td>EasyLoad</td>
                 <td>
-                  <input type="number" />
+                  <input type="number" disabled />
                 </td>
               </tr>
               <tr>
@@ -1559,7 +1499,7 @@ function App() {
               <tr>
                 <td>Total</td>
                 <td>
-                  <input type="number" />
+                  <input type="number" disabled />
                 </td>
               </tr>
             </tbody>
