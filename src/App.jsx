@@ -376,16 +376,16 @@ function App() {
                   <tr>
                     <td>Total Rs</td>
                     <td>
-                      <input type="number" value={getTotalAccountBalance(265999891)} />
+                      <input type="number" disabled value={getTotalAccountBalance(265999891)} />
                     </td>
                     <td>
-                      <input type="number" value={getTotalAccountBalance(266001445)} />
+                      <input type="number" disabled value={getTotalAccountBalance(266001445)} />
                     </td>
                     <td>
-                      <input type="number" value={getTotalAccountBalance(37300247)} />
+                      <input type="number" disabled value={getTotalAccountBalance(37300247)} />
                     </td>
                     <td>
-                      <input type="number" value={getTotalAccountBalance(257283991)} />
+                      <input type="number" disabled value={getTotalAccountBalance(257283991)} />
                     </td>
                   </tr>
                   <tr>
@@ -414,16 +414,16 @@ function App() {
                   <tr>
                     <td>Remaining Balance</td>
                     <td>
-                      <input type="number" value={getRemainingAccountBalance(265999891)} />
+                      <input type="number" disabled value={getRemainingAccountBalance(265999891)} />
                     </td>
                     <td>
-                      <input type="number" value={getRemainingAccountBalance(266001445)} />
+                      <input type="number" disabled value={getRemainingAccountBalance(266001445)} />
                     </td>
                     <td>
-                      <input type="number" value={getRemainingAccountBalance(37300247)} />
+                      <input type="number" disabled value={getRemainingAccountBalance(37300247)} />
                     </td>
                     <td>
-                      <input type="number" value={getRemainingAccountBalance(257283991)} />
+                      <input type="number" disabled value={getRemainingAccountBalance(257283991)} />
                     </td>
                   </tr>
                 </tbody>
@@ -439,19 +439,21 @@ function App() {
                   <tr>
                     <td>Total</td>
                     <td>
-                      <input type="number" id="total-cards" />
+                      <input type="number" value={sheet?.totalCards || ""}
+                        onChange={(e) => setSheet({ ...sheet, totalCards: +e.target.value })} />
                     </td>
                   </tr>
                   <tr>
                     <td>Sell</td>
                     <td>
-                      <input type="number" id="sell-cards" />
+                      <input type="number" value={sheet?.sellCards || ""}
+                        onChange={(e) => setSheet({ ...sheet, sellCards: +e.target.value })} />
                     </td>
                   </tr>
                   <tr>
                     <td>Remaining</td>
                     <td>
-                      <input type="number" id="remaining-cards" disabled="" />
+                      <input type="number" disabled value={(sheet?.totalCards || 0) - (sheet?.sellCards || 0)} />
                     </td>
                   </tr>
                 </tbody>
