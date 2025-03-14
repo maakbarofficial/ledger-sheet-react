@@ -42,7 +42,7 @@ function App() {
     )
   }
 
-  const getTotalELoad = (network) => {
+  const getTotalELoad = () => {
     return (
       getTotalBalance("telenor") + getTotalBalance("jazz") + getTotalBalance("ufone") + getTotalBalance("zong")
     );
@@ -82,6 +82,19 @@ function App() {
       return sum + (Number(entry?.amount) || 0);
     }, 0);
   };
+
+  const getTotalCashToday = () => {
+    return (
+      ((sheet?.cash5000 || 0) * 5000) +
+      ((sheet?.cash1000 || 0) * 1000) +
+      ((sheet?.cash500 || 0) * 500) +
+      ((sheet?.cash100 || 0) * 100) +
+      ((sheet?.cash50 || 0) * 50) +
+      ((sheet?.cash20 || 0) * 20) +
+      ((sheet?.cash10 || 0) * 10) +
+      ((sheet?.cash5 || 0) * 5)
+    )
+  }
   return (
     <div className="container">
       <div className="header">
@@ -1216,86 +1229,94 @@ function App() {
                 <td>5000</td>
                 <td>x</td>
                 <td>
-                  <input type="number" />
+                  <input type="number" value={sheet?.cash5000 || ""}
+                    onChange={(e) => setSheet({ ...sheet, cash5000: +e.target.value })} />
                 </td>
                 <td>
-                  <input type="number" disabled="" />
+                  <input type="number" disabled value={5000 * (sheet?.cash5000 || "")} />
                 </td>
               </tr>
               <tr>
                 <td>1000</td>
                 <td>x</td>
                 <td>
-                  <input type="number" />
+                  <input type="number" value={sheet?.cash1000 || ""}
+                    onChange={(e) => setSheet({ ...sheet, cash1000: +e.target.value })} />
                 </td>
                 <td>
-                  <input type="number" disabled="" />
+                  <input type="number" disabled value={1000 * (sheet?.cash1000 || "")} />
                 </td>
               </tr>
               <tr>
                 <td>500</td>
                 <td>x</td>
                 <td>
-                  <input type="number" />
+                  <input type="number" value={sheet?.cash500 || ""}
+                    onChange={(e) => setSheet({ ...sheet, cash500: +e.target.value })} />
                 </td>
                 <td>
-                  <input type="number" disabled="" />
+                  <input type="number" disabled value={500 * (sheet?.cash500 || "")} />
                 </td>
               </tr>
               <tr>
                 <td>100</td>
                 <td>x</td>
                 <td>
-                  <input type="number" />
+                  <input type="number" value={sheet?.cash100 || ""}
+                    onChange={(e) => setSheet({ ...sheet, cash100: +e.target.value })} />
                 </td>
                 <td>
-                  <input type="number" disabled="" />
+                  <input type="number" disabled value={100 * (sheet?.cash100 || "")} />
                 </td>
               </tr>
               <tr>
                 <td>50</td>
                 <td>x</td>
                 <td>
-                  <input type="number" />
+                  <input type="number" value={sheet?.cash50 || ""}
+                    onChange={(e) => setSheet({ ...sheet, cash50: +e.target.value })} />
                 </td>
                 <td>
-                  <input type="number" disabled="" />
+                  <input type="number" disabled value={50 * (sheet?.cash50 || "")} />
                 </td>
               </tr>
               <tr>
                 <td>20</td>
                 <td>x</td>
                 <td>
-                  <input type="number" />
+                  <input type="number" value={sheet?.cash20 || ""}
+                    onChange={(e) => setSheet({ ...sheet, cash20: +e.target.value })} />
                 </td>
                 <td>
-                  <input type="number" disabled="" />
+                  <input type="number" disabled value={20 * (sheet?.cash20 || "")} />
                 </td>
               </tr>
               <tr>
                 <td>10</td>
                 <td>x</td>
                 <td>
-                  <input type="number" />
+                  <input type="number" value={sheet?.cash10 || ""}
+                    onChange={(e) => setSheet({ ...sheet, cash10: +e.target.value })} />
                 </td>
                 <td>
-                  <input type="number" disabled="" />
+                  <input type="number" disabled value={10 * (sheet?.cash10 || "")} />
                 </td>
               </tr>
               <tr>
                 <td>5</td>
                 <td>x</td>
                 <td>
-                  <input type="number" />
+                  <input type="number" value={sheet?.cash5 || ""}
+                    onChange={(e) => setSheet({ ...sheet, cash5: +e.target.value })} />
                 </td>
                 <td>
-                  <input type="number" disabled="" />
+                  <input type="number" disabled value={5 * (sheet?.cash5 || "")} />
                 </td>
               </tr>
               <tr>
                 <td colSpan={3}>Total</td>
                 <td>
-                  <input type="number" disabled="" defaultValue={123} />
+                  <input type="number" disabled value={getTotalCashToday()} />
                 </td>
               </tr>
             </tbody>
