@@ -52,6 +52,18 @@ function App() {
     return (
       getTotalAccountBalance(AccNo) - (sheet?.[`withdrawl${AccNo}`] || 0))
   };
+
+  const updateBorrowEntry = (index, field, value) => {
+    const updatedBorrow = [...(sheet?.borrow || [])]; // Create a new array reference
+    updatedBorrow[index] = { ...updatedBorrow[index], [field]: value }; // Update specific entry
+    setSheet({ ...sheet, borrow: updatedBorrow }); // Update the sheet state
+  };
+
+  const getTotalBorrowed = () => {
+    return (sheet?.borrow || []).reduce((sum, entry) => {
+      return sum + (Number(entry?.amount) || 0);
+    }, 0);
+  };
   return (
     <div className="container">
       <div className="header">
@@ -299,7 +311,7 @@ function App() {
                   <tr>
                     <td>AD</td>
                     <td>
-                      <input type="number" disabled />
+                      <input type="number" disabled value={getTotalBorrowed()} />
                     </td>
                   </tr>
                   <tr>
@@ -308,6 +320,7 @@ function App() {
                       <input
                         type="number"
                         disabled
+                        value={getTotalELoad() - getTotalBorrowed()}
                       />
                     </td>
                   </tr>
@@ -463,112 +476,33 @@ function App() {
         </div>
         <div className="borrow-recovery-container">
           <div className="borrow-container">
-            {/* Borrow */}
             <table>
               <tbody>
                 <tr>
                   <th colSpan={2}>Borrow</th>
                 </tr>
-                <tr>
-                  <td>
-                    <input type="text" />
-                  </td>
-                  <td>
-                    <input type="number" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input type="text" />
-                  </td>
-                  <td>
-                    <input type="number" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input type="text" />
-                  </td>
-                  <td>
-                    <input type="number" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input type="text" />
-                  </td>
-                  <td>
-                    <input type="number" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input type="text" />
-                  </td>
-                  <td>
-                    <input type="number" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input type="text" />
-                  </td>
-                  <td>
-                    <input type="number" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input type="text" />
-                  </td>
-                  <td>
-                    <input type="number" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input type="text" />
-                  </td>
-                  <td>
-                    <input type="number" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input type="text" />
-                  </td>
-                  <td>
-                    <input type="number" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input type="text" />
-                  </td>
-                  <td>
-                    <input type="number" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input type="text" />
-                  </td>
-                  <td>
-                    <input type="number" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input type="text" />
-                  </td>
-                  <td>
-                    <input type="number" />
-                  </td>
-                </tr>
+                {Array.from({ length: 12 }).map((_, index) => (
+                  <tr key={index}>
+                    <td>
+                      <input
+                        type="text"
+                        value={sheet?.borrow?.[index]?.name || ""}
+                        onChange={(e) => updateBorrowEntry(index, "name", e.target.value)}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        value={sheet?.borrow?.[index]?.amount || ""}
+                        onChange={(e) => updateBorrowEntry(index, "amount", e.target.value)}
+                      />
+                    </td>
+                  </tr>
+                ))}
                 <tr>
                   <td>Total</td>
                   <td>
-                    <input type="number" id="total-borrow" />
+                    <input type="number" disabled value={getTotalBorrowed()} />
                   </td>
                 </tr>
               </tbody>
