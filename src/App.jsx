@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
+import { useSheetStore, useThemeStore } from "./store";
 
 function App() {
+  const { theme, setTheme } = useThemeStore();
+  const { sheet, setSheet } = useSheetStore();
+
   const [dateTime, setDateTime] = useState({ date: '', time: '' });
 
   useEffect(() => {
@@ -33,13 +37,13 @@ function App() {
           <p id="current-date">{dateTime.date}</p>
           <p id="current-time">{dateTime.time}</p>
           <div className="actions">
-            <button id="theme-toggle" className="button">
+            <button id="theme-toggle" className="button" onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
               Change Theme
             </button>
             <button className="button">Save as PDF</button>
             <button className="button">Save Locally</button>
             <button className="button">Sync</button>
-            <button id="clear-sheet" className="button-danger">
+            <button id="clear-sheet" className="button-danger" onClick={() => setSheet(null)}>
               Clear
             </button>
           </div>
@@ -62,99 +66,209 @@ function App() {
                   <tr>
                     <td>Opening Balance</td>
                     <td>
-                      <input type="number" id="telenor-opening-balance" />
+                      <input
+                        type="number"
+                        value={sheet?.telenorOpeningBalance || ""}
+                        onChange={(e) => setSheet({ ...sheet, telenorOpeningBalance: +e.target.value })}
+                      />
                     </td>
                     <td>
-                      <input type="number" id="jazz-opening-balance" />
+                      <input
+                        type="number"
+                        value={sheet?.jazzOpeningBalance || ""}
+                        onChange={(e) => setSheet({ ...sheet, jazzOpeningBalance: +e.target.value })}
+                      />
                     </td>
                     <td>
-                      <input type="number" id="ufone-opening-balance" />
+                      <input
+                        type="number"
+                        value={sheet?.ufoneOpeningBalance || ""}
+                        onChange={(e) => setSheet({ ...sheet, ufoneOpeningBalance: +e.target.value })}
+                      />
                     </td>
                     <td>
-                      <input type="number" id="zong-opening-balance" />
+                      <input
+                        type="number"
+                        value={sheet?.zongOpeningBalance || ""}
+                        onChange={(e) => setSheet({ ...sheet, zongOpeningBalance: +e.target.value })}
+                      />
                     </td>
                   </tr>
                   <tr>
                     <td>New Balance</td>
                     <td>
-                      <input type="number" id="telenor-new-balance" />
+                      <input
+                        type="number"
+                        value={sheet?.telenorNewBalance || ""}
+                        onChange={(e) => setSheet({ ...sheet, telenorNewBalance: +e.target.value })}
+                      />
                     </td>
                     <td>
-                      <input type="number" id="jazz-new-balance" />
+                      <input
+                        type="number"
+                        value={sheet?.jazzNewBalance || ""}
+                        onChange={(e) => setSheet({ ...sheet, jazzNewBalance: +e.target.value })}
+                      />
                     </td>
                     <td>
-                      <input type="number" id="ufone-new-balance" />
+                      <input
+                        type="number"
+                        value={sheet?.ufoneNewBalance || ""}
+                        onChange={(e) => setSheet({ ...sheet, ufoneNewBalance: +e.target.value })}
+                      />
                     </td>
                     <td>
-                      <input type="number" id="zong-new-balance" />
+                      <input
+                        type="number"
+                        value={sheet?.zongNewBalance || ""}
+                        onChange={(e) => setSheet({ ...sheet, zongNewBalance: +e.target.value })}
+                      />
                     </td>
                   </tr>
                   <tr>
                     <td>Reversal Balance</td>
                     <td>
-                      <input type="number" id="telenor-reversal-balance" />
+                      <input
+                        type="number"
+                        value={sheet?.telenorReversalBalance || ""}
+                        onChange={(e) => setSheet({ ...sheet, telenorReversalBalance: +e.target.value })}
+                      />
                     </td>
                     <td>
-                      <input type="number" id="jazz-reversal-balance" />
+                      <input
+                        type="number"
+                        value={sheet?.jazzReversalBalance || ""}
+                        onChange={(e) => setSheet({ ...sheet, jazzReversalBalance: +e.target.value })}
+                      />
                     </td>
                     <td>
-                      <input type="number" id="ufone-reversal-balance" />
+                      <input
+                        type="number"
+                        value={sheet?.ufoneReversalBalance || ""}
+                        onChange={(e) => setSheet({ ...sheet, ufoneReversalBalance: +e.target.value })}
+                      />
                     </td>
                     <td>
-                      <input type="number" id="zong-reversal-balance" />
+                      <input
+                        type="number"
+                        value={sheet?.zongReversalBalance || ""}
+                        onChange={(e) => setSheet({ ...sheet, zongReversalBalance: +e.target.value })}
+                      />
                     </td>
                   </tr>
                   <tr>
                     <td>Total Rs</td>
                     <td>
-                      <input type="number" id="telenor-total-rs" disabled="" />
+                      <input
+                        type="number"
+                        disabled
+                        value={
+                          (sheet?.telenorOpeningBalance || 0) +
+                          (sheet?.telenorNewBalance || 0) +
+                          (sheet?.telenorReversalBalance || 0)
+                        }
+                      />
                     </td>
                     <td>
-                      <input type="number" id="jazz-total-rs" disabled="" />
+                      <input
+                        type="number"
+                        disabled
+                        value={
+                          (sheet?.jazzOpeningBalance || 0) +
+                          (sheet?.jazzNewBalance || 0) +
+                          (sheet?.jazzReversalBalance || 0)
+                        }
+                      />
                     </td>
                     <td>
-                      <input type="number" id="ufone-total-rs" disabled="" />
+                      <input
+                        type="number"
+                        disabled
+                        value={
+                          (sheet?.ufoneOpeningBalance || 0) +
+                          (sheet?.ufoneNewBalance || 0) +
+                          (sheet?.ufoneReversalBalance || 0)
+                        }
+                      />
                     </td>
                     <td>
-                      <input type="number" id="zong-total-rs" disabled="" />
+                      <input
+                        type="number"
+                        disabled
+                        value={
+                          (sheet?.zongOpeningBalance || 0) +
+                          (sheet?.zongNewBalance || 0) +
+                          (sheet?.zongReversalBalance || 0)
+                        }
+                      />
                     </td>
                   </tr>
                   <tr>
                     <td>Closing Balance</td>
                     <td>
-                      <input type="number" id="telenor-closing-balance" />
+                      <input type="number"
+                        value={sheet?.telenorClosingBalance || ""}
+                        onChange={(e) => setSheet({ ...sheet, telenorClosingBalance: +e.target.value })}
+                      />
                     </td>
                     <td>
-                      <input type="number" id="jazz-closing-balance" />
+                      <input type="number"
+                        value={sheet?.jazzClosingBalance || ""}
+                        onChange={(e) => setSheet({ ...sheet, jazzClosingBalance: +e.target.value })}
+                      />
                     </td>
                     <td>
-                      <input type="number" id="ufone-closing-balance" />
+                      <input type="number"
+                        value={sheet?.ufoneClosingBalance || ""}
+                        onChange={(e) => setSheet({ ...sheet, ufoneClosingBalance: +e.target.value })}
+                      />
                     </td>
                     <td>
-                      <input type="number" id="zong-closing-balance" />
+                      <input type="number"
+                        value={sheet?.zongClosingBalance || ""}
+                        onChange={(e) => setSheet({ ...sheet, zongClosingBalance: +e.target.value })}
+                      />
                     </td>
                   </tr>
                   <tr>
                     <td>Total ELoad Sell</td>
                     <td>
                       <input
-                        type="number"
-                        id="telenor-total-eload-sell"
-                        disabled=""
+                        type="number" disabled
+                        value={
+                          ((sheet?.telenorOpeningBalance || 0) +
+                            (sheet?.telenorNewBalance || 0) +
+                            (sheet?.telenorReversalBalance || 0)) - (sheet?.telenorClosingBalance || 0)
+                        }
                       />
                     </td>
                     <td>
-                      <input type="number" id="jazz-total-eload-sell" disabled="" />
+                      <input type="number" disabled
+                        value={
+                          ((sheet?.jazzOpeningBalance || 0) +
+                            (sheet?.jazzNewBalance || 0) +
+                            (sheet?.jazzReversalBalance || 0)) - (sheet?.jazzClosingBalance || 0)
+                        } />
                     </td>
                     <td>
                       <input
                         type="number"
-                        id="ufone-total-eload-sell"
-                        disabled=""
+                        disabled
+                        value={
+                          ((sheet?.ufoneOpeningBalance || 0) +
+                            (sheet?.ufoneNewBalance || 0) +
+                            (sheet?.ufoneReversalBalance || 0)) - (sheet?.ufoneClosingBalance || 0)
+                        }
                       />
                     </td>
                     <td>
-                      <input type="number" id="zong-total-eload-sell" disabled="" />
+                      <input type="number" disabled
+                        value={
+                          ((sheet?.zongOpeningBalance || 0) +
+                            (sheet?.zongNewBalance || 0) +
+                            (sheet?.zongReversalBalance || 0)) - (sheet?.zongClosingBalance || 0)
+                        }
+                      />
                     </td>
                   </tr>
                 </tbody>
@@ -170,37 +284,37 @@ function App() {
                   <tr>
                     <td>Telenor</td>
                     <td>
-                      <input type="number" id="telenor-eload-summery" disabled="" />
+                      <input type="number" disabled />
                     </td>
                   </tr>
                   <tr>
                     <td>Jazz</td>
                     <td>
-                      <input type="number" id="jazz-eload-summery" disabled="" />
+                      <input type="number" disabled />
                     </td>
                   </tr>
                   <tr>
                     <td>Ufone</td>
                     <td>
-                      <input type="number" id="ufone-eload-summery" disabled="" />
+                      <input type="number" disabled />
                     </td>
                   </tr>
                   <tr>
                     <td>Zong</td>
                     <td>
-                      <input type="number" id="zong-eload-summery" disabled="" />
+                      <input type="number" disabled />
                     </td>
                   </tr>
                   <tr>
                     <td>Total Load</td>
                     <td>
-                      <input type="number" id="eload-summery-total" disabled="" />
+                      <input type="number" disabled />
                     </td>
                   </tr>
                   <tr>
                     <td>AD</td>
                     <td>
-                      <input type="number" id="eload-summery-ad" disabled="" />
+                      <input type="number" disabled />
                     </td>
                   </tr>
                   <tr>
@@ -208,8 +322,7 @@ function App() {
                     <td>
                       <input
                         type="number"
-                        id="eload-summery-total-sell"
-                        disabled=""
+                        disabled
                       />
                     </td>
                   </tr>
