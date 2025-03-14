@@ -27,6 +27,31 @@ function App() {
     const interval = setInterval(getDateTime, 1000);
     return () => clearInterval(interval);
   }, []);
+
+  const getTotalBalance = (network) => {
+    return (
+      (sheet?.[`${network}OpeningBalance`] || 0) +
+      (sheet?.[`${network}NewBalance`] || 0) +
+      (sheet?.[`${network}ReversalBalance`] || 0)
+    );
+  };
+
+  const getTotalELoad = (network) => {
+    return (
+      getTotalBalance("telenor") + getTotalBalance("jazz") + getTotalBalance("ufone") + getTotalBalance("zong")
+    );
+  };
+
+  const getTotalAccountBalance = (AccNo) => {
+    return (
+      (sheet?.[`deposit${AccNo}`] || 0) +
+      (sheet?.[`accountBalance${AccNo}`] || 0))
+  };
+
+  const getRemainingAccountBalance = (AccNo) => {
+    return (
+      getTotalAccountBalance(AccNo) - (sheet?.[`withdrawl${AccNo}`] || 0))
+  };
   return (
     <div className="container">
       <div className="header">
@@ -158,50 +183,10 @@ function App() {
                   </tr>
                   <tr>
                     <td>Total Rs</td>
-                    <td>
-                      <input
-                        type="number"
-                        disabled
-                        value={
-                          (sheet?.telenorOpeningBalance || 0) +
-                          (sheet?.telenorNewBalance || 0) +
-                          (sheet?.telenorReversalBalance || 0)
-                        }
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        disabled
-                        value={
-                          (sheet?.jazzOpeningBalance || 0) +
-                          (sheet?.jazzNewBalance || 0) +
-                          (sheet?.jazzReversalBalance || 0)
-                        }
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        disabled
-                        value={
-                          (sheet?.ufoneOpeningBalance || 0) +
-                          (sheet?.ufoneNewBalance || 0) +
-                          (sheet?.ufoneReversalBalance || 0)
-                        }
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        disabled
-                        value={
-                          (sheet?.zongOpeningBalance || 0) +
-                          (sheet?.zongNewBalance || 0) +
-                          (sheet?.zongReversalBalance || 0)
-                        }
-                      />
-                    </td>
+                    <td><input type="number" disabled value={getTotalBalance("telenor")} /></td>
+                    <td><input type="number" disabled value={getTotalBalance("jazz")} /></td>
+                    <td><input type="number" disabled value={getTotalBalance("ufone")} /></td>
+                    <td><input type="number" disabled value={getTotalBalance("zong")} /></td>
                   </tr>
                   <tr>
                     <td>Closing Balance</td>
@@ -284,31 +269,31 @@ function App() {
                   <tr>
                     <td>Telenor</td>
                     <td>
-                      <input type="number" disabled />
+                      <input type="number" disabled value={getTotalBalance("telenor")} />
                     </td>
                   </tr>
                   <tr>
                     <td>Jazz</td>
                     <td>
-                      <input type="number" disabled />
+                      <input type="number" disabled value={getTotalBalance("jazz")} />
                     </td>
                   </tr>
                   <tr>
                     <td>Ufone</td>
                     <td>
-                      <input type="number" disabled />
+                      <input type="number" disabled value={getTotalBalance("ufone")} />
                     </td>
                   </tr>
                   <tr>
                     <td>Zong</td>
                     <td>
-                      <input type="number" disabled />
+                      <input type="number" disabled value={getTotalBalance("zong")} />
                     </td>
                   </tr>
                   <tr>
                     <td>Total Load</td>
                     <td>
-                      <input type="number" disabled />
+                      <input type="number" disabled value={getTotalELoad()} />
                     </td>
                   </tr>
                   <tr>
@@ -345,76 +330,100 @@ function App() {
                   <tr>
                     <td>Rs</td>
                     <td>
-                      <input type="number" />
+                      <input type="number"
+                        value={sheet?.accountBalance265999891 || ""}
+                        onChange={(e) => setSheet({ ...sheet, accountBalance265999891: +e.target.value })}
+                      />
                     </td>
                     <td>
-                      <input type="number" />
+                      <input type="number"
+                        value={sheet?.accountBalance266001445 || ""}
+                        onChange={(e) => setSheet({ ...sheet, accountBalance266001445: +e.target.value })}
+                      />
                     </td>
                     <td>
-                      <input type="number" />
+                      <input type="number" value={sheet?.accountBalance37300247 || ""}
+                        onChange={(e) => setSheet({ ...sheet, accountBalance37300247: +e.target.value })} />
                     </td>
                     <td>
-                      <input type="number" />
+                      <input type="number" value={sheet?.accountBalance257283991 || ""}
+                        onChange={(e) => setSheet({ ...sheet, accountBalance257283991: +e.target.value })} />
                     </td>
                   </tr>
                   <tr>
                     <td>Deposit</td>
                     <td>
-                      <input type="number" />
+                      <input type="number"
+                        value={sheet?.deposit265999891 || ""}
+                        onChange={(e) => setSheet({ ...sheet, deposit265999891: +e.target.value })}
+                      />
                     </td>
                     <td>
-                      <input type="number" />
+                      <input type="number"
+                        value={sheet?.deposit266001445 || ""}
+                        onChange={(e) => setSheet({ ...sheet, deposit266001445: +e.target.value })}
+                      />
                     </td>
                     <td>
-                      <input type="number" />
+                      <input type="number" value={sheet?.deposit37300247 || ""}
+                        onChange={(e) => setSheet({ ...sheet, deposit37300247: +e.target.value })} />
                     </td>
                     <td>
-                      <input type="number" />
+                      <input type="number" value={sheet?.deposit257283991 || ""}
+                        onChange={(e) => setSheet({ ...sheet, deposit257283991: +e.target.value })} />
                     </td>
                   </tr>
                   <tr>
                     <td>Total Rs</td>
                     <td>
-                      <input type="number" />
+                      <input type="number" value={getTotalAccountBalance(265999891)} />
                     </td>
                     <td>
-                      <input type="number" />
+                      <input type="number" value={getTotalAccountBalance(266001445)} />
                     </td>
                     <td>
-                      <input type="number" />
+                      <input type="number" value={getTotalAccountBalance(37300247)} />
                     </td>
                     <td>
-                      <input type="number" />
+                      <input type="number" value={getTotalAccountBalance(257283991)} />
                     </td>
                   </tr>
                   <tr>
                     <td>Withdrawl</td>
                     <td>
-                      <input type="number" />
+                      <input type="number"
+                        value={sheet?.withdrawl265999891 || ""}
+                        onChange={(e) => setSheet({ ...sheet, withdrawl265999891: +e.target.value })}
+                      />
                     </td>
                     <td>
-                      <input type="number" />
+                      <input type="number"
+                        value={sheet?.withdrawl266001445 || ""}
+                        onChange={(e) => setSheet({ ...sheet, withdrawl266001445: +e.target.value })}
+                      />
                     </td>
                     <td>
-                      <input type="number" />
+                      <input type="number" value={sheet?.withdrawl37300247 || ""}
+                        onChange={(e) => setSheet({ ...sheet, withdrawl37300247: +e.target.value })} />
                     </td>
                     <td>
-                      <input type="number" />
+                      <input type="number" value={sheet?.withdrawl257283991 || ""}
+                        onChange={(e) => setSheet({ ...sheet, withdrawl257283991: +e.target.value })} />
                     </td>
                   </tr>
                   <tr>
                     <td>Remaining Balance</td>
                     <td>
-                      <input type="number" />
+                      <input type="number" value={getRemainingAccountBalance(265999891)} />
                     </td>
                     <td>
-                      <input type="number" />
+                      <input type="number" value={getRemainingAccountBalance(266001445)} />
                     </td>
                     <td>
-                      <input type="number" />
+                      <input type="number" value={getRemainingAccountBalance(37300247)} />
                     </td>
                     <td>
-                      <input type="number" />
+                      <input type="number" value={getRemainingAccountBalance(257283991)} />
                     </td>
                   </tr>
                 </tbody>
