@@ -1514,7 +1514,8 @@ function App() {
               <tr>
                 <td>Extra</td>
                 <td>
-                  <input type="number" />
+                  <input type="number" value={sheet?.extra || ""}
+                    onChange={(e) => setSheet({ ...sheet, extra: +e.target.value })} />
                 </td>
               </tr>
               <tr>
