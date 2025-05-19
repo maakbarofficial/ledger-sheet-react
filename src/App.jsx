@@ -36,6 +36,14 @@ function App() {
     );
   };
 
+    const getTotalEloadSell = (network) => {
+    return (
+      ((sheet?.[`${network}OpeningBalance`] || 0) +
+      (sheet?.[`${network}NewBalance`] || 0) +
+      (sheet?.[`${network}ReversalBalance`] || 0)) - (sheet?.[`${network}ClosingBalance`] || 0)
+    );
+  };
+
   const getTotalCards = () => {
     return (
       (sheet?.totalCards || 0) - (sheet?.sellCards || 0)
@@ -312,25 +320,25 @@ function App() {
                   <tr>
                     <td>Telenor</td>
                     <td>
-                      <input type="number" disabled value={getTotalBalance("telenor")} />
+                      <input type="number" disabled value={getTotalEloadSell("telenor")} />
                     </td>
                   </tr>
                   <tr>
                     <td>Jazz</td>
                     <td>
-                      <input type="number" disabled value={getTotalBalance("jazz")} />
+                      <input type="number" disabled value={getTotalEloadSell("jazz")} />
                     </td>
                   </tr>
                   <tr>
                     <td>Ufone</td>
                     <td>
-                      <input type="number" disabled value={getTotalBalance("ufone")} />
+                      <input type="number" disabled value={getTotalEloadSell("ufone")} />
                     </td>
                   </tr>
                   <tr>
                     <td>Zong</td>
                     <td>
-                      <input type="number" disabled value={getTotalBalance("zong")} />
+                      <input type="number" disabled value={getTotalEloadSell("zong")} />
                     </td>
                   </tr>
                   <tr>
@@ -1335,25 +1343,25 @@ function App() {
               <tr>
                 <td>Today Cash</td>
                 <td>
-                  <input type="number" disabled="" />
+                  <input type="number" value={getTotalCashToday()} disabled />
                 </td>
               </tr>
               <tr>
                 <td>Total Amount</td>
                 <td>
-                  <input type="number" disabled="" />
+                  <input type="number" disabled />
                 </td>
               </tr>
               <tr>
                 <td>Recovery &amp; Purchasing</td>
                 <td>
-                  <input type="number" disabled="" />
+                  <input type="number" disabled />
                 </td>
               </tr>
               <tr>
                 <td>Remaining Cash</td>
                 <td>
-                  <input type="number" disabled="" />
+                  <input type="number" disabled />
                 </td>
               </tr>
               <tr />
@@ -1375,7 +1383,7 @@ function App() {
                     className="text-lg"
                     type="number"
                     defaultValue={34}
-                    readOnly=""
+                    disabled
                   />
                 </td>
               </tr>
