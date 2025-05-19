@@ -36,7 +36,7 @@ function App() {
     );
   };
 
-    const getTotalEloadSell = (network) => {
+  const eLoadSell = (network) => {
     return (
       ((sheet?.[`${network}OpeningBalance`] || 0) +
       (sheet?.[`${network}NewBalance`] || 0) +
@@ -52,7 +52,7 @@ function App() {
 
   const getTotalELoad = () => {
     return (
-      getTotalBalance("telenor") + getTotalBalance("jazz") + getTotalBalance("ufone") + getTotalBalance("zong")
+      eLoadSell("telenor") + eLoadSell("jazz") + eLoadSell("ufone") + eLoadSell("zong")
     );
   };
 
@@ -332,25 +332,25 @@ function App() {
                   <tr>
                     <td>Telenor</td>
                     <td>
-                      <input type="number" disabled value={getTotalEloadSell("telenor")} />
+                      <input type="number" disabled value={eLoadSell("telenor")} />
                     </td>
                   </tr>
                   <tr>
                     <td>Jazz</td>
                     <td>
-                      <input type="number" disabled value={getTotalEloadSell("jazz")} />
+                      <input type="number" disabled value={eLoadSell("jazz")} />
                     </td>
                   </tr>
                   <tr>
                     <td>Ufone</td>
                     <td>
-                      <input type="number" disabled value={getTotalEloadSell("ufone")} />
+                      <input type="number" disabled value={eLoadSell("ufone")} />
                     </td>
                   </tr>
                   <tr>
                     <td>Zong</td>
                     <td>
-                      <input type="number" disabled value={getTotalEloadSell("zong")} />
+                      <input type="number" disabled value={eLoadSell("zong")} />
                     </td>
                   </tr>
                   <tr>
@@ -1482,7 +1482,7 @@ function App() {
               <tr>
                 <td>EasyLoad</td>
                 <td>
-                  <input type="number" disabled />
+                  <input type="number" disabled value={getTotalELoad() - getTotalBorrowed()} />
                 </td>
               </tr>
               <tr>
