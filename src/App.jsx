@@ -7,6 +7,8 @@ function App() {
 
   const [dateTime, setDateTime] = useState({ date: '', time: '' });
 
+  const isPureNumber = (val) => typeof val === 'number' || (/^\d+(\.\d+)?$/.test(val));
+
   useEffect(() => {
     const getDateTime = () => {
       const now = new Date();
@@ -39,8 +41,8 @@ function App() {
   const eLoadSell = (network) => {
     return (
       ((sheet?.[`${network}OpeningBalance`] || 0) +
-      (sheet?.[`${network}NewBalance`] || 0) +
-      (sheet?.[`${network}ReversalBalance`] || 0)) - (sheet?.[`${network}ClosingBalance`] || 0)
+        (sheet?.[`${network}NewBalance`] || 0) +
+        (sheet?.[`${network}ReversalBalance`] || 0)) - (sheet?.[`${network}ClosingBalance`] || 0)
     );
   };
 
@@ -90,6 +92,45 @@ function App() {
       return sum + (Number(entry?.amount) || 0);
     }, 0);
   };
+
+  const updateOmniEntry = (index, field, value) => {
+    const updatedOmni = [...(sheet?.omni || [])];
+    updatedOmni[index] = { ...updatedOmni[index], [field]: value };
+    setSheet({ ...sheet, omni: updatedOmni });
+  };
+
+  const getTotalOmniSending = () => {
+    return (sheet?.omni || []).reduce((sum, entry) => {
+      const val = entry?.sending;
+      return sum + (isPureNumber(val) ? Number(val) : 0);
+    }, 0);
+  };
+
+  const getTotalOmniReceiving = () => {
+    return (sheet?.omni || []).reduce((sum, entry) => {
+      const val = entry?.receiving;
+      return sum + (isPureNumber(val) ? Number(val) : 0);
+    }, 0);
+  };
+
+  const extractLastOmniBalance = () => {
+    const entries = [...(sheet?.omni || [])];
+    const regex = /b\s+(\d+)/i; // Matches 'b' followed by space(s) and digits
+
+    // Reverse iterate to get the last entered match
+    for (let i = entries.length - 1; i >= 0; i--) {
+      const sendMatch = regex.exec(entries[i]?.sending || "");
+      if (sendMatch) return Number(sendMatch[1]);
+
+      const receiveMatch = regex.exec(entries[i]?.receiving || "");
+      if (receiveMatch) return Number(receiveMatch[1]);
+    }
+
+    return null; // If no match found
+  };
+
+
+
 
   const updateRedbookEntry = (index, field, value) => {
     const updatedRedbook = [...(sheet?.redbook || [])];
@@ -613,92 +654,41 @@ function App() {
                 <td>Sending</td>
                 <td>Receiving</td>
               </tr>
+              {Array.from({ length: 11 }).map((_, index) => (
+                <tr key={index}>
+                  <td>
+                    <input
+                      type="text"
+                      value={sheet?.omni?.[index]?.sending || ""}
+                      onChange={(e) => updateOmniEntry(index, "sending", e.target.value)}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      value={sheet?.omni?.[index]?.receiving || ""}
+                      onChange={(e) => updateOmniEntry(index, "receiving", e.target.value)}
+                    />
+                  </td>
+                </tr>
+              ))}
+
               <tr>
+                <td>Total Sending</td>
                 <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
+                  <input type="number" disabled value={getTotalOmniSending()} />
                 </td>
               </tr>
               <tr>
+                <td>Total Receiving</td>
                 <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
+                  <input type="number" disabled value={getTotalOmniReceiving()} />
                 </td>
               </tr>
               <tr>
+                <td>Last Balance</td>
                 <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
+                  <input type="number" disabled value={extractLastOmniBalance() || "-"} />
                 </td>
               </tr>
             </tbody>
@@ -1146,7 +1136,7 @@ function App() {
               <tr>
                 <td className="text-sm">UBL Omni Rec</td>
                 <td>
-                  <input type="number" />
+                  <input type="number" disabled value={getTotalOmniReceiving()} />
                 </td>
               </tr>
               <tr>
@@ -1409,24 +1399,24 @@ function App() {
               <tr>
                 <th colSpan={2}>RED Book</th>
               </tr>
-                {Array.from({ length: 8 }).map((_, index) => (
-                  <tr key={index}>
-                    <td>
-                      <input
-                        type="text"
-                        value={sheet?.redbook?.[index]?.name || ""}
-                        onChange={(e) => updateRedbookEntry(index, "name", e.target.value)}
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        value={sheet?.redbook?.[index]?.amount || ""}
-                        onChange={(e) => updateRedbookEntry(index, "amount", e.target.value)}
-                      />
-                    </td>
-                  </tr>
-                ))}
+              {Array.from({ length: 8 }).map((_, index) => (
+                <tr key={index}>
+                  <td>
+                    <input
+                      type="text"
+                      value={sheet?.redbook?.[index]?.name || ""}
+                      onChange={(e) => updateRedbookEntry(index, "name", e.target.value)}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      value={sheet?.redbook?.[index]?.amount || ""}
+                      onChange={(e) => updateRedbookEntry(index, "amount", e.target.value)}
+                    />
+                  </td>
+                </tr>
+              ))}
               <tr>
                 <td>Total</td>
                 <td>
@@ -1446,7 +1436,7 @@ function App() {
               <tr>
                 <td>UBL Omni</td>
                 <td>
-                  <input type="number" disabled />
+                  <input type="number" disabled value={getTotalOmniSending()} />
                 </td>
               </tr>
               <tr>
