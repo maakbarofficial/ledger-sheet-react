@@ -91,6 +91,18 @@ function App() {
     }, 0);
   };
 
+  const updateRedbookEntry = (index, field, value) => {
+    const updatedRedbook = [...(sheet?.redbook || [])];
+    updatedRedbook[index] = { ...updatedRedbook[index], [field]: value };
+    setSheet({ ...sheet, redbook: updatedRedbook });
+  };
+
+  const getTotalRedbook = () => {
+    return (sheet?.redbook || []).reduce((sum, entry) => {
+      return sum + (Number(entry?.amount) || 0);
+    }, 0);
+  };
+
   const getTotalCashToday = () => {
     return (
       ((sheet?.cash5000 || 0) * 5000) +
@@ -1397,74 +1409,28 @@ function App() {
               <tr>
                 <th colSpan={2}>RED Book</th>
               </tr>
-              <tr>
-                <td>
-                  <input type="text" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="text" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="text" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="text" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="text" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="text" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="text" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="text" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
+                {Array.from({ length: 8 }).map((_, index) => (
+                  <tr key={index}>
+                    <td>
+                      <input
+                        type="text"
+                        value={sheet?.redbook?.[index]?.name || ""}
+                        onChange={(e) => updateRedbookEntry(index, "name", e.target.value)}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        value={sheet?.redbook?.[index]?.amount || ""}
+                        onChange={(e) => updateRedbookEntry(index, "amount", e.target.value)}
+                      />
+                    </td>
+                  </tr>
+                ))}
               <tr>
                 <td>Total</td>
                 <td>
-                  <input type="number" />
+                  <input type="number" disabled value={getTotalRedbook()} />
                 </td>
               </tr>
             </tbody>
