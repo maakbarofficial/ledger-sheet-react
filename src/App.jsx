@@ -875,7 +875,7 @@ function App() {
               <tr>
                 <td>Last Balance</td>
                 <td>
-                  <input type="number" disabled value={extractLastOmniBalance() || "-"} />
+                  <input type="number" disabled value={extractLastOmniBalance() || ""} />
                 </td>
               </tr>
             </tbody>
@@ -932,7 +932,7 @@ function App() {
               <tr>
                 <td>Last Balance</td>
                 <td>
-                  <input type="number" disabled value={extractLastEasyPaisaBalance() || "-"} />
+                  <input type="number" disabled value={extractLastEasyPaisaBalance() || ""} />
                 </td>
               </tr>
             </tbody>
@@ -989,7 +989,7 @@ function App() {
               <tr>
                 <td>Last Balance</td>
                 <td>
-                  <input type="number" disabled value={extractLastJazzCashBalance() || "-"} />
+                  <input type="number" disabled value={extractLastJazzCashBalance() || ""} />
                 </td>
               </tr>
             </tbody>
@@ -1046,7 +1046,7 @@ function App() {
               <tr>
                 <td>Last Balance</td>
                 <td>
-                  <input type="number" disabled value={extractLastEPAccountBalance() || "-"} />
+                  <input type="number" disabled value={extractLastEPAccountBalance() || ""} />
                 </td>
               </tr>
             </tbody>
@@ -1103,7 +1103,7 @@ function App() {
               <tr>
                 <td>Last Balance</td>
                 <td>
-                  <input type="number" disabled value={extractLastJCAccountBalance() || "-"} />
+                  <input type="number" disabled value={extractLastJCAccountBalance() || ""} />
                 </td>
               </tr>
             </tbody>
