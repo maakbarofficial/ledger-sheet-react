@@ -15,15 +15,23 @@ function App() {
   const handleDownloadAsFile = async () => {
     try {
       setLoading(true);
-      const element = document.body; // or document.querySelector(".container") to limit to main container
+  
+      // Hide all buttons before screenshot
+      const buttons = document.querySelectorAll("button");
+      buttons.forEach(btn => btn.style.display = "none");
 
+      const labels = document.querySelectorAll("label");
+      labels.forEach(lbl => lbl.style.display = "none");
+  
+      const element = document.body;
+  
       const canvas = await html2canvas(element, {
         useCORS: true,
-        scale: 2, // higher scale = better resolution
+        scale: 2,
         windowWidth: document.documentElement.scrollWidth,
         windowHeight: document.documentElement.scrollHeight,
       });
-
+  
       const link = document.createElement("a");
       link.download = `Sheet-${dateTime.date}-${dateTime.time.replace(/:/g, '-')}.png`;
       link.href = canvas.toDataURL("image/png");
@@ -31,6 +39,13 @@ function App() {
     } catch (error) {
       console.log("Error while downloadCSV", error);
     } finally {
+      // Show buttons again after screenshot
+      const buttons = document.querySelectorAll("button");
+      buttons.forEach(btn => btn.style.display = "");
+
+      const labels = document.querySelectorAll("label");
+      labels.forEach(lbl => lbl.style.display = "");
+  
       setLoading(false);
     }
   };
