@@ -129,8 +129,173 @@ function App() {
     return null; // If no match found
   };
 
+  const updateEasyPaisaEntry = (index, field, value) => {
+    const updatedEasyPaisa = [...(sheet?.easypaisa || [])];
+    updatedEasyPaisa[index] = { ...updatedEasyPaisa[index], [field]: value };
+    setSheet({ ...sheet, easypaisa: updatedEasyPaisa });
+  };
+
+  const getTotalEasyPaisaSending = () => {
+    return (sheet?.easypaisa || []).reduce((sum, entry) => {
+      const val = entry?.sending;
+      return sum + (isPureNumber(val) ? Number(val) : 0);
+    }, 0);
+  };
+
+  const getTotalEasyPaisaReceiving = () => {
+    return (sheet?.easypaisa || []).reduce((sum, entry) => {
+      const val = entry?.receiving;
+      return sum + (isPureNumber(val) ? Number(val) : 0);
+    }, 0);
+  };
+
+  const extractLastEasyPaisaBalance = () => {
+    const entries = [...(sheet?.easypaisa || [])];
+    const regex = /b\s+(\d+)/i; // Matches 'b' followed by space(s) and digits
+
+    // Reverse iterate to get the last entered match
+    for (let i = entries.length - 1; i >= 0; i--) {
+      const sendMatch = regex.exec(entries[i]?.sending || "");
+      if (sendMatch) return Number(sendMatch[1]);
+
+      const receiveMatch = regex.exec(entries[i]?.receiving || "");
+      if (receiveMatch) return Number(receiveMatch[1]);
+    }
+
+    return null; // If no match found
+  };
+
+  const updateJazzCashEntry = (index, field, value) => {
+    const updatedJazzCash = [...(sheet?.jazzcash || [])];
+    updatedJazzCash[index] = { ...updatedJazzCash[index], [field]: value };
+    setSheet({ ...sheet, jazzcash: updatedJazzCash });
+  };
+
+  const getTotalJazzCashSending = () => {
+    return (sheet?.jazzcash || []).reduce((sum, entry) => {
+      const val = entry?.sending;
+      return sum + (isPureNumber(val) ? Number(val) : 0);
+    }, 0);
+  };
+
+  const getTotalJazzCashReceiving = () => {
+    return (sheet?.jazzcash || []).reduce((sum, entry) => {
+      const val = entry?.receiving;
+      return sum + (isPureNumber(val) ? Number(val) : 0);
+    }, 0);
+  };
+
+  const extractLastJazzCashBalance = () => {
+    const entries = [...(sheet?.jazzcash || [])];
+    const regex = /b\s+(\d+)/i; // Matches 'b' followed by space(s) and digits
+
+    // Reverse iterate to get the last entered match
+    for (let i = entries.length - 1; i >= 0; i--) {
+      const sendMatch = regex.exec(entries[i]?.sending || "");
+      if (sendMatch) return Number(sendMatch[1]);
+
+      const receiveMatch = regex.exec(entries[i]?.receiving || "");
+      if (receiveMatch) return Number(receiveMatch[1]);
+    }
+
+    return null; // If no match found
+  };
+
+  const updateEPAccountEntry = (index, field, value) => {
+    const updatedEPAccount = [...(sheet?.epaccount || [])];
+    updatedEPAccount[index] = { ...updatedEPAccount[index], [field]: value };
+    setSheet({ ...sheet, epaccount: updatedEPAccount });
+  };
+
+  const getTotalEPAccountSending = () => {
+    return (sheet?.epaccount || []).reduce((sum, entry) => {
+      const val = entry?.sending;
+      return sum + (isPureNumber(val) ? Number(val) : 0);
+    }, 0);
+  };
+
+  const getTotalEPAccountReceiving = () => {
+    return (sheet?.epaccount || []).reduce((sum, entry) => {
+      const val = entry?.receiving;
+      return sum + (isPureNumber(val) ? Number(val) : 0);
+    }, 0);
+  };
+
+  const extractLastEPAccountBalance = () => {
+    const entries = [...(sheet?.epaccount || [])];
+    const regex = /b\s+(\d+)/i; // Matches 'b' followed by space(s) and digits
+
+    // Reverse iterate to get the last entered match
+    for (let i = entries.length - 1; i >= 0; i--) {
+      const sendMatch = regex.exec(entries[i]?.sending || "");
+      if (sendMatch) return Number(sendMatch[1]);
+
+      const receiveMatch = regex.exec(entries[i]?.receiving || "");
+      if (receiveMatch) return Number(receiveMatch[1]);
+    }
+
+    return null; // If no match found
+  };
 
 
+  const updateJCAccountEntry = (index, field, value) => {
+    const updatedJCAccount = [...(sheet?.jcaccount || [])];
+    updatedJCAccount[index] = { ...updatedJCAccount[index], [field]: value };
+    setSheet({ ...sheet, jcaccount: updatedJCAccount });
+  };
+
+  const getTotalJCAccountSending = () => {
+    return (sheet?.jcaccount || []).reduce((sum, entry) => {
+      const val = entry?.sending;
+      return sum + (isPureNumber(val) ? Number(val) : 0);
+    }, 0);
+  };
+
+  const getTotalJCAccountReceiving = () => {
+    return (sheet?.jcaccount || []).reduce((sum, entry) => {
+      const val = entry?.receiving;
+      return sum + (isPureNumber(val) ? Number(val) : 0);
+    }, 0);
+  };
+
+  const extractLastJCAccountBalance = () => {
+    const entries = [...(sheet?.jcaccount || [])];
+    const regex = /b\s+(\d+)/i; // Matches 'b' followed by space(s) and digits
+
+    // Reverse iterate to get the last entered match
+    for (let i = entries.length - 1; i >= 0; i--) {
+      const sendMatch = regex.exec(entries[i]?.sending || "");
+      if (sendMatch) return Number(sendMatch[1]);
+
+      const receiveMatch = regex.exec(entries[i]?.receiving || "");
+      if (receiveMatch) return Number(receiveMatch[1]);
+    }
+
+    return null; // If no match found
+  };
+
+  const updateManualPurchasingEntry = (index, field, value) => {
+    const updatedManualPurchasing = [...(sheet?.manualpurchsing || [])];
+    updatedManualPurchasing[index] = { ...updatedManualPurchasing[index], [field]: value };
+    setSheet({ ...sheet, manualpurchsing: updatedManualPurchasing });
+  };
+
+  const getTotalManualPurchasing = () => {
+    return (sheet?.manualpurchsing || []).reduce((sum, entry) => {
+      return sum + (Number(entry?.amount) || 0);
+    }, 0);
+  };
+
+  const getTotalPurchasing = () => {
+    return (
+      getTotalOmniReceiving() +
+      getTotalEasyPaisaReceiving() +
+      getTotalJazzCashReceiving() +
+      getTotalEPAccountReceiving() +
+      getTotalJCAccountReceiving() +
+      getTotalManualPurchasing()
+    )
+  };
 
   const updateRedbookEntry = (index, field, value) => {
     const updatedRedbook = [...(sheet?.redbook || [])];
@@ -142,6 +307,28 @@ function App() {
     return (sheet?.redbook || []).reduce((sum, entry) => {
       return sum + (Number(entry?.amount) || 0);
     }, 0);
+  };
+
+  const getTotalCashInfo = () => {
+    const totalCashFromDenominations = getTotalCashToday();
+    const totalEasyPaisaSending = getTotalEasyPaisaSending();
+    const totalJazzCashSending = getTotalJazzCashSending();
+    const totalEPAccountSending = getTotalEPAccountSending();
+    const totalJCAccountSending = getTotalJCAccountSending();
+    const totalRecovery = getTotalRecovery();
+    const totalCards = getTotalCards() * 100;
+    const totalELoad = getTotalELoad() - getTotalBorrowed();
+    return (
+      totalCashFromDenominations +
+      totalEasyPaisaSending +
+      totalJazzCashSending +
+      totalEPAccountSending +
+      totalJCAccountSending +
+      totalRecovery +
+      totalCards +
+      totalELoad +
+      (sheet?.extra || 0)
+    );
   };
 
   const getTotalCashToday = () => {
@@ -699,7 +886,7 @@ function App() {
           <table>
             <tbody>
               <tr>
-                <th colSpan={2}>EasyPaisa</th>
+                <th colSpan={2}>Easy Paisa</th>
               </tr>
               <tr>
                 <td>Balance</td>
@@ -711,92 +898,41 @@ function App() {
                 <td>Sending</td>
                 <td>Receiving</td>
               </tr>
+              {Array.from({ length: 11 }).map((_, index) => (
+                <tr key={index}>
+                  <td>
+                    <input
+                      type="text"
+                      value={sheet?.easypaisa?.[index]?.sending || ""}
+                      onChange={(e) => updateEasyPaisaEntry(index, "sending", e.target.value)}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      value={sheet?.easypaisa?.[index]?.receiving || ""}
+                      onChange={(e) => updateEasyPaisaEntry(index, "receiving", e.target.value)}
+                    />
+                  </td>
+                </tr>
+              ))}
+
               <tr>
+                <td>Total Sending</td>
                 <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
+                  <input type="number" disabled value={getTotalEasyPaisaSending()} />
                 </td>
               </tr>
               <tr>
+                <td>Total Receiving</td>
                 <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
+                  <input type="number" disabled value={getTotalEasyPaisaReceiving()} />
                 </td>
               </tr>
               <tr>
+                <td>Last Balance</td>
                 <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
+                  <input type="number" disabled value={extractLastEasyPaisaBalance() || "-"} />
                 </td>
               </tr>
             </tbody>
@@ -819,92 +955,41 @@ function App() {
                 <td>Sending</td>
                 <td>Receiving</td>
               </tr>
+              {Array.from({ length: 11 }).map((_, index) => (
+                <tr key={index}>
+                  <td>
+                    <input
+                      type="text"
+                      value={sheet?.jazzcash?.[index]?.sending || ""}
+                      onChange={(e) => updateJazzCashEntry(index, "sending", e.target.value)}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      value={sheet?.jazzcash?.[index]?.receiving || ""}
+                      onChange={(e) => updateJazzCashEntry(index, "receiving", e.target.value)}
+                    />
+                  </td>
+                </tr>
+              ))}
+
               <tr>
+                <td>Total Sending</td>
                 <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
+                  <input type="number" disabled value={getTotalJazzCashSending()} />
                 </td>
               </tr>
               <tr>
+                <td>Total Receiving</td>
                 <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
+                  <input type="number" disabled value={getTotalJazzCashReceiving()} />
                 </td>
               </tr>
               <tr>
+                <td>Last Balance</td>
                 <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
+                  <input type="number" disabled value={extractLastJazzCashBalance() || "-"} />
                 </td>
               </tr>
             </tbody>
@@ -927,92 +1012,41 @@ function App() {
                 <td>Sending</td>
                 <td>Receiving</td>
               </tr>
+              {Array.from({ length: 11 }).map((_, index) => (
+                <tr key={index}>
+                  <td>
+                    <input
+                      type="text"
+                      value={sheet?.epaccount?.[index]?.sending || ""}
+                      onChange={(e) => updateEPAccountEntry(index, "sending", e.target.value)}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      value={sheet?.epaccount?.[index]?.receiving || ""}
+                      onChange={(e) => updateEPAccountEntry(index, "receiving", e.target.value)}
+                    />
+                  </td>
+                </tr>
+              ))}
+
               <tr>
+                <td>Total Sending</td>
                 <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
+                  <input type="number" disabled value={getTotalEPAccountSending()} />
                 </td>
               </tr>
               <tr>
+                <td>Total Receiving</td>
                 <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
+                  <input type="number" disabled value={getTotalEPAccountReceiving()} />
                 </td>
               </tr>
               <tr>
+                <td>Last Balance</td>
                 <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
+                  <input type="number" disabled value={extractLastEPAccountBalance() || "-"} />
                 </td>
               </tr>
             </tbody>
@@ -1035,92 +1069,41 @@ function App() {
                 <td>Sending</td>
                 <td>Receiving</td>
               </tr>
+              {Array.from({ length: 11 }).map((_, index) => (
+                <tr key={index}>
+                  <td>
+                    <input
+                      type="text"
+                      value={sheet?.jcaccount?.[index]?.sending || ""}
+                      onChange={(e) => updateJCAccountEntry(index, "sending", e.target.value)}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      value={sheet?.jcaccount?.[index]?.receiving || ""}
+                      onChange={(e) => updateJCAccountEntry(index, "receiving", e.target.value)}
+                    />
+                  </td>
+                </tr>
+              ))}
+
               <tr>
+                <td>Total Sending</td>
                 <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
+                  <input type="number" disabled value={getTotalJCAccountSending()} />
                 </td>
               </tr>
               <tr>
+                <td>Total Receiving</td>
                 <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
+                  <input type="number" disabled value={getTotalJCAccountReceiving()} />
                 </td>
               </tr>
               <tr>
+                <td>Last Balance</td>
                 <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  <input type="number" />
+                  <input type="number" disabled value={extractLastJCAccountBalance() || "-"} />
                 </td>
               </tr>
             </tbody>
@@ -1142,85 +1125,49 @@ function App() {
               <tr>
                 <td className="text-sm">EasyPaisa Rec</td>
                 <td>
-                  <input type="number" />
+                  <input type="number" disabled value={getTotalEasyPaisaReceiving()} />
                 </td>
               </tr>
               <tr>
                 <td className="text-sm">JazzCash Rec</td>
                 <td>
-                  <input type="number" />
+                  <input type="number" disabled value={getTotalJazzCashReceiving()} />
                 </td>
               </tr>
               <tr>
                 <td className="text-sm">EP AC 0333 Rec</td>
                 <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td className="text-sm">EP AC 0304 Rec</td>
-                <td>
-                  <input type="number" />
+                  <input type="number" disabled value={getTotalEPAccountReceiving()} />
                 </td>
               </tr>
               <tr>
                 <td className="text-sm">JC AC 0307 Rec</td>
                 <td>
-                  <input type="number" />
+                  <input type="number" disabled value={getTotalJCAccountReceiving()} />
                 </td>
               </tr>
-              <tr>
-                <td>
-                  <input type="text" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="text" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="text" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="text" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="text" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="text" />
-                </td>
-                <td>
-                  <input type="number" />
-                </td>
-              </tr>
+              {Array.from({ length: 8  }).map((_, index) => (
+            <tr key={index}>
+              <td>
+                <input
+                  type="text"
+                  value={sheet?.manualpurchsing?.[index]?.name || ""}
+                  onChange={(e) => updateManualPurchasingEntry(index, "name", e.target.value)}
+                />
+              </td>
+              <td>
+                <input
+                  type="number"
+                  value={sheet?.manualpurchsing?.[index]?.amount || ""}
+                  onChange={(e) => updateManualPurchasingEntry(index, "amount", e.target.value)}
+                />
+              </td>
+            </tr>
+          ))}
               <tr>
                 <td>Total</td>
                 <td>
-                  <input type="number" />
+                  <input type="number" disabled value={getTotalPurchasing()} />
                 </td>
               </tr>
             </tbody>
@@ -1339,7 +1286,8 @@ function App() {
               <tr>
                 <td>Previous Cash</td>
                 <td>
-                  <input type="number" />
+                  <input type="number" value={sheet?.previousCash || ""}
+                    onChange={(e) => setSheet({ ...sheet, previousCash: +e.target.value })} />
                 </td>
               </tr>
               <tr>
@@ -1351,19 +1299,19 @@ function App() {
               <tr>
                 <td>Total Amount</td>
                 <td>
-                  <input type="number" disabled />
+                  <input type="number" value={getTotalCashInfo()} disabled  />
                 </td>
               </tr>
               <tr>
                 <td>Recovery &amp; Purchasing</td>
                 <td>
-                  <input type="number" disabled />
+                  <input type="number" value={getTotalRecovery() + getTotalPurchasing()} disabled  />
                 </td>
               </tr>
               <tr>
                 <td>Remaining Cash</td>
                 <td>
-                  <input type="number" disabled />
+                  <input type="number" value={(sheet?.previousCash + getTotalCashToday() + getTotalCashInfo()) - (getTotalRecovery() + getTotalPurchasing())} disabled  />
                 </td>
               </tr>
               <tr />
@@ -1384,8 +1332,8 @@ function App() {
                   <input
                     className="text-lg"
                     type="number"
-                    defaultValue={34}
-                    disabled
+                    readOnly
+                    value={getTotalCashToday()} 
                   />
                 </td>
               </tr>
@@ -1442,19 +1390,19 @@ function App() {
               <tr>
                 <td>EasyPaisa</td>
                 <td>
-                  <input type="number" disabled />
+                  <input type="number" disabled value={getTotalEasyPaisaSending()}  />
                 </td>
               </tr>
               <tr>
                 <td>JazzCash</td>
                 <td>
-                  <input type="number" disabled />
+                  <input type="number" disabled value={getTotalJazzCashSending()}  />
                 </td>
               </tr>
               <tr>
                 <td>EasyPaisa &amp; JazzCash Accounts</td>
                 <td>
-                  <input type="number" disabled />
+                  <input type="number" disabled value={getTotalEPAccountSending() + getTotalJCAccountSending()} />
                 </td>
               </tr>
               <tr>
@@ -1466,7 +1414,7 @@ function App() {
               <tr>
                 <td>Card</td>
                 <td>
-                  <input type="number" disabled value={getTotalCards()} />
+                  <input type="number" disabled value={getTotalCards() * 100} />
                 </td>
               </tr>
               <tr>
@@ -1485,7 +1433,7 @@ function App() {
               <tr>
                 <td>Total</td>
                 <td>
-                  <input type="number" disabled />
+                  <input type="number" disabled value={getTotalCashInfo()} />
                 </td>
               </tr>
             </tbody>
