@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSheetStore, useThemeStore } from "./store";
+import html2canvas from "html2canvas";
 
 function App() {
   const { theme, setTheme } = useThemeStore();
@@ -8,6 +9,22 @@ function App() {
   const [dateTime, setDateTime] = useState({ date: '', time: '' });
 
   const isPureNumber = (val) => typeof val === 'number' || (/^\d+(\.\d+)?$/.test(val));
+
+  const handleDownloadAsFile = async () => {
+    const element = document.body; // or document.querySelector(".container") to limit to main container
+  
+    const canvas = await html2canvas(element, {
+      useCORS: true,
+      scale: 2, // higher scale = better resolution
+      windowWidth: document.documentElement.scrollWidth,
+      windowHeight: document.documentElement.scrollHeight,
+    });
+  
+    const link = document.createElement("a");
+    link.download = `Sheet-${dateTime.date}-${dateTime.time.replace(/:/g, '-')}.png`;
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+  };
 
   useEffect(() => {
     const getDateTime = () => {
@@ -356,7 +373,7 @@ function App() {
             <button id="theme-toggle" className="button" onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
               Change Theme to {theme === "dark" ? "Light" : "Dark"}
             </button>
-            <button className="button">Save as PDF</button>
+            <button className="button" onClick={handleDownloadAsFile}>Save as File</button>
             <button className="button">Save Locally</button>
             <button className="button">Sync</button>
             <button id="clear-sheet" className="button-danger" onClick={() => setSheet(null)}>
