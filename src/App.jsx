@@ -344,7 +344,7 @@ function App() {
     )
   }
   return (
-    <div className="container">
+    <div className={`container ${theme === 'dark' ? 'dark-mode' : 'light-mode'}`}>
       <div className="header">
         <div className="title-container">
           <h1>KMK Communication</h1>
@@ -354,7 +354,7 @@ function App() {
           <p id="current-time">{dateTime.time}</p>
           <div className="actions">
             <button id="theme-toggle" className="button" onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
-              Change Theme
+              Change Theme to {theme === "dark" ? "Light" : "Dark"}
             </button>
             <button className="button">Save as PDF</button>
             <button className="button">Save Locally</button>
