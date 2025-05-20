@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSheetStore, useThemeStore } from "./store";
 import html2canvas from "html2canvas";
-import Loader from "./loader";
+import Loader from "./Loader";
 
 function App() {
   const { theme, setTheme } = useThemeStore();
