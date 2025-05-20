@@ -1146,7 +1146,7 @@ function App() {
                   <input type="number" disabled value={getTotalJCAccountReceiving()} />
                 </td>
               </tr>
-              {Array.from({ length: 8  }).map((_, index) => (
+              {Array.from({ length: 10  }).map((_, index) => (
             <tr key={index}>
               <td>
                 <input
